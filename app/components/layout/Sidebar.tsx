@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation'; // 1. Import this hook
+import { usePathname } from 'next/navigation'; 
 
 interface SidebarProps {
   isCollapsed: boolean;
@@ -9,15 +9,14 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ isCollapsed, toggleSidebar }: SidebarProps) {
-  const pathname = usePathname(); // 2. Get current URL path
+  const pathname = usePathname(); 
 
-  // 3. Add 'href' to items and remove hardcoded 'active'
   const navItems = [
     { name: 'Dashboard', icon: 'dashboard', href: '/user/dashboard' },
     { name: 'Income', icon: 'account_balance', href: '/user/incomes' },
     { name: 'Expenses', icon: 'credit_card', href: '/user/expenses' },
-    { name: 'Analytics', icon: 'pie_chart', href: '/user/analytics' },
-    { name: 'Settings', icon: 'settings', href: '/user/settings' },
+    { name: 'Categories', icon: 'pie_chart', href: '/user/categories' },
+    { name: 'Sub-Categories', icon: 'settings', href: '/user/sub-categories' },
   ];
 
   return (
@@ -134,7 +133,7 @@ export default function Sidebar({ isCollapsed, toggleSidebar }: SidebarProps) {
             
             <div className={`flex-1 min-w-0 transition-all duration-300 overflow-hidden ${isCollapsed ? 'w-0 opacity-0 hidden' : 'w-auto opacity-100'}`}>
               <h4 className="text-sm font-bold text-slate-800 truncate group-hover:text-indigo-700 transition-colors">
-                Alex Morgan
+                Abhay Javiya
               </h4>
               <p className="text-xs text-slate-500 truncate">Pro Account</p>
             </div>
