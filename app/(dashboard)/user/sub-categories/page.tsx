@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 export default function SubCategoryPage() {
   const router = useRouter();
   const [data, setData] = useState<any[]>([]);
+  
 
   const fetchData = async () => {
     const res = await axios.get("/api/sub-categories");
