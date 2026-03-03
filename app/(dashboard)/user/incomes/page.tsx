@@ -43,12 +43,13 @@ export default function IncomePage() {
             Track and manage your income records
           </p> */}
         </div>
-        <a
-          href="/user/incomes/add"
+        
+        <button
           className="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700"
+          onClick={() => router.push("/user/incomes/add")}
         >
           + Add Income
-        </a>
+        </button>
       </div>
 
       <div className="mt-6 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
