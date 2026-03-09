@@ -12,12 +12,14 @@ export default function AddIncomePage() {
     Amount: "",
     PeopleID: "",
     CategoryID: "",
+    SubCategoryID: "",
     ProjectID: "",
     IncomeDetail: "",
   });
 
   const [people, setPeople] = useState<any[]>([]);
   const [categories, setCategories] = useState<any[]>([]);
+  const [subCategories, setSubCategories] = useState<any[]>([]);
   const [projects, setProjects] = useState<any[]>([]);
 
   useEffect(() => {
@@ -25,6 +27,19 @@ export default function AddIncomePage() {
     axios.get("/api/categories").then(res => setCategories(res.data.data));
     axios.get("/api/projects").then(res => setProjects(res.data.data));
   }, []);
+
+  useEffect(() => {
+    if (!form.CategoryID) {
+      setSubCategories([]);
+      setForm(prev => ({ ...prev, SubCategoryID: "" }));
+      return;
+    }
+
+    axios
+      .get(`/api/sub-categories?categoryId=${form.CategoryID}`)
+      .then(res => setSubCategories(res.data.data || []))
+      .catch(() => setSubCategories([]));
+  }, [form.CategoryID]);
 
   const submit = async (e: any) => {
     e.preventDefault();
@@ -34,6 +49,7 @@ export default function AddIncomePage() {
       Amount: Number(form.Amount),
       PeopleID: Number(form.PeopleID),
       CategoryID: form.CategoryID ? Number(form.CategoryID) : null,
+      SubCategoryID: form.SubCategoryID ? Number(form.SubCategoryID) : null,
       ProjectID: form.ProjectID ? Number(form.ProjectID) : null,
     });
 
@@ -60,10 +76,30 @@ export default function AddIncomePage() {
           ))}
         </select>
 
-        <select onChange={e => setForm({ ...form, CategoryID: e.target.value })}>
+        <select
+          onChange={e =>
+            setForm({
+              ...form,
+              CategoryID: e.target.value,
+              SubCategoryID: "",
+            })
+          }
+        >
           <option value="">Select Category</option>
           {categories.filter(c => c.IsIncome).map(c => (
             <option key={c.CategoryID} value={c.CategoryID}>{c.CategoryName}</option>
+          ))}
+        </select>
+
+        <select
+          value={form.SubCategoryID}
+          onChange={e => setForm({ ...form, SubCategoryID: e.target.value })}
+        >
+          <option value="">Select Sub-Category</option>
+          {subCategories.map(sc => (
+            <option key={sc.SubCategoryID} value={sc.SubCategoryID}>
+              {sc.SubCategoryName}
+            </option>
           ))}
         </select>
 

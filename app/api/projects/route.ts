@@ -8,6 +8,12 @@ function getUser(req: NextRequest) {
   return verifyToken(token);
 }
 
+function toDate(value: any) {
+  if (!value) return null;
+  const d = new Date(value);
+  return Number.isNaN(d.getTime()) ? null : d;
+}
+
 // Post ...
 export async function POST(req: NextRequest) {
   try {
@@ -35,8 +41,8 @@ export async function POST(req: NextRequest) {
     const project = await prisma.projects.create({
       data: {
         ProjectName,
-        ProjectStartDate,
-        ProjectEndDate,
+        ProjectStartDate: toDate(ProjectStartDate),
+        ProjectEndDate: toDate(ProjectEndDate),
         ProjectDetail,
         Description,
         UserID: user.userId,
@@ -125,7 +131,11 @@ export async function PUT(req: NextRequest) {
         UserID: user.userId,
       },
       data: {
-        ...body,
+        ProjectName: body.ProjectName,
+        ProjectStartDate: toDate(body.ProjectStartDate),
+        ProjectEndDate: toDate(body.ProjectEndDate),
+        ProjectDetail: body.ProjectDetail ?? null,
+        Description: body.Description ?? null,
         Modified: new Date(),
       },
     });

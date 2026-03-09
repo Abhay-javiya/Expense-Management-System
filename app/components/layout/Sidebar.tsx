@@ -15,8 +15,10 @@ export default function Sidebar({ isCollapsed, toggleSidebar }: SidebarProps) {
     { name: 'Dashboard', icon: 'dashboard', href: '/user/dashboard' },
     { name: 'Income', icon: 'account_balance', href: '/user/incomes' },
     { name: 'Expenses', icon: 'credit_card', href: '/user/expenses' },
+    { name: 'Projects', icon: 'work', href: '/user/projects' },
     { name: 'Categories', icon: 'pie_chart', href: '/user/categories' },
     { name: 'Sub-Categories', icon: 'settings', href: '/user/sub-categories' },
+    { name: 'People', icon: 'people', href: '/user/peoples' }
   ];
 
   return (

@@ -69,6 +69,7 @@ export default function IncomePage() {
                 <th className="px-3 py-2 font-medium">Date</th>
                 <th className="px-3 py-2 font-medium">Source</th>
                 <th className="px-3 py-2 font-medium">Category</th>
+                <th className="px-3 py-2 font-medium">Sub-Category</th>
                 <th className="px-3 py-2 font-medium">Amount</th>
                 <th className="px-3 py-2 font-medium">Actions</th>
               </tr>
@@ -88,6 +89,11 @@ export default function IncomePage() {
                   <td className="px-3 py-3">
                     <span className="inline-flex items-center rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
                       {income.categories?.CategoryName || "-"}
+                    </span>
+                  </td>
+                  <td className="px-3 py-3">
+                    <span className="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">
+                      {income.sub_categories?.SubCategoryName || "-"}
                     </span>
                   </td>
                   <td className="px-3 py-3 font-semibold text-emerald-600">
