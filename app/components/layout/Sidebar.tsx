@@ -49,6 +49,7 @@ export default function Sidebar({ isCollapsed, toggleSidebar, isMobileOpen, clos
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
         className={`fixed left-0 top-0 z-50 h-full bg-white border-r border-slate-100 flex flex-col shadow-2xl shadow-slate-200/50 md:shadow-none`}
       >
+        
         {/* Mobile Close Button */}
         <button
           onClick={closeMobileMenu}
