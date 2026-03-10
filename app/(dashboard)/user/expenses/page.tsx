@@ -3,6 +3,9 @@
 import { useEffect, useState } from "react";
 import api from "axios";
 import { useRouter } from "next/navigation";
+import { Plus, Search, Filter, MoreHorizontal, Edit2, Trash2, Calendar, User, Tag, Layout, Info } from "lucide-react";
+import { motion } from "framer-motion";
+
 
 export default function ExpensePage() {
   const router = useRouter();
@@ -11,7 +14,6 @@ export default function ExpensePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  /* ================= FETCH ================= */
   const fetchExpenses = async () => {
     setLoading(true);
     setError("");
@@ -26,7 +28,6 @@ export default function ExpensePage() {
       }
     } catch (err: any) {
       console.error(err);
-
       if (err.response?.status === 401) {
         setError("Session expired. Please login again.");
       } else {
@@ -41,7 +42,6 @@ export default function ExpensePage() {
     fetchExpenses();
   }, []);
 
-  /* ================= DELETE ================= */
   const deleteExpense = async (id: number) => {
     if (!confirm("Delete this expense?")) return;
 
@@ -53,117 +53,161 @@ export default function ExpensePage() {
     }
   };
 
-  /* ================= UI STATES ================= */
+  if (loading) return (
+    <div className="p-4 sm:p-8 animate-pulse space-y-4">
+      <div className="h-10 w-48 bg-slate-200 rounded-lg"></div>
+      <div className="h-64 bg-slate-100 rounded-3xl"></div>
+    </div>
+  );
 
-  if (loading) return <p className="p-4">Loading expenses...</p>;
-
-  if (error) return <div className="p-4 text-red-600">{error}</div>;
+  if (error) return (
+    <div className="p-8 text-center">
+      <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-rose-50 text-rose-600 mb-4">
+        <Info className="w-8 h-8" />
+      </div>
+      <p className="text-rose-600 font-bold">{error}</p>
+    </div>
+  );
 
   return (
-    <div className="p-6">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <div className="p-4 sm:p-8 max-w-7xl mx-auto">
+      {/* Header */}
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between mb-8"
+      >
         <div>
-          <h1 className="text-2xl font-semibold text-slate-900">Expenses</h1>
-          {/* <p className="text-sm text-slate-500">
-            Track and manage your expense records
-          </p> */}
+          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">Expenses</h1>
+          <p className="text-sm text-slate-500 font-medium">Manage your daily spending and records</p>
         </div>
-        <button
+        <motion.button
+          whileHover={{ y: -2 }}
+          whileTap={{ scale: 0.95 }}
           onClick={() => router.push("/user/expenses/add")}
-          className="inline-flex items-center justify-center rounded-lg bg-rose-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-rose-700"
+          className="flex items-center justify-center gap-2 rounded-2xl bg-slate-900 px-6 py-3.5 text-sm font-bold text-white shadow-xl shadow-slate-200 transition active:scale-95"
         >
-          + Add Expense
-        </button>
-      </div>
+          <Plus className="w-5 h-5" />
+          Add Expense
+        </motion.button>
+      </motion.div>
 
-      <div className="mt-6 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-slate-200">
-        <div className="mb-4">
-          <h2 className="text-lg font-semibold text-slate-900">
-            Recent Expenses
-          </h2>
-          {/* <p className="text-sm text-slate-500">
-            Latest entries added to your account
-          </p> */}
+      {/* Main Table Container */}
+      <div className="rounded-[32px] bg-white shadow-sm border border-slate-100 overflow-hidden">
+        {/* Table Header Controls */}
+        <div className="p-4 sm:p-6 border-b border-slate-50 flex flex-col sm:flex-row gap-4 justify-between items-center">
+          <div className="relative w-full sm:w-72">
+            <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+              <Search className="w-4 h-4" />
+            </span>
+            <input
+              type="text"
+              placeholder="Search expenses..."
+              className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border-none rounded-xl text-sm font-medium focus:ring-2 focus:ring-indigo-100 focus:bg-white transition-all"
+            />
+          </div>
+          <div className="flex gap-2 w-full sm:w-auto">
+            <button className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 py-2.5 border border-slate-100 rounded-xl text-sm font-bold text-slate-600 hover:bg-slate-50 transition-colors">
+              <Filter className="w-4 h-4" />
+              Filter
+            </button>
+          </div>
         </div>
 
+        {/* Table/List */}
         <div className="overflow-x-auto">
-          <table className="w-full border-separate border-spacing-y-2 text-left text-sm">
+          <table className="w-full text-left border-collapse min-w-[700px] sm:min-w-0">
             <thead>
-              <tr className="text-slate-500">
-                <th className="px-3 py-2 font-medium">Date</th>
-                <th className="px-3 py-2 font-medium">Amount</th>
-                <th className="px-3 py-2 font-medium">Person</th>
-                <th className="px-3 py-2 font-medium">Category</th>
-                <th className="px-3 py-2 font-medium">Sub Category</th>
-                <th className="px-3 py-2 font-medium">Project</th>
-                <th className="px-3 py-2 font-medium">Detail</th>
-                <th className="px-3 py-2 font-medium">Actions</th>
+              <tr className="border-b border-slate-50 text-slate-400 text-[10px] font-black uppercase tracking-widest bg-slate-50/30">
+                <th className="px-6 py-4">Transaction</th>
+                <th className="px-4 py-4 hidden md:table-cell">Details</th>
+                <th className="px-4 py-4 text-center">Category</th>
+                <th className="px-4 py-4 text-right">Amount</th>
+                <th className="px-6 py-4 text-center">Actions</th>
               </tr>
             </thead>
-            <tbody>
-              {expenses.length === 0 && (
+            <tbody className="divide-y divide-slate-50">
+              {expenses.length === 0 ? (
                 <tr>
-                  <td
-                    colSpan={8}
-                    className="px-3 py-6 text-center text-slate-500"
-                  >
-                    No expenses found
-                  </td>
-                </tr>
-              )}
-
-              {expenses.map((expense) => (
-                <tr
-                  key={expense.ExpenseID}
-                  className="rounded-xl bg-slate-50 text-slate-700 shadow-[0_1px_0_rgba(0,0,0,0.04)] ring-1 ring-slate-100 transition hover:bg-white"
-                >
-                  <td className="px-3 py-3">
-                    {new Date(expense.ExpenseDate).toLocaleDateString()}
-                  </td>
-                  <td className="px-3 py-3 font-semibold text-rose-600">
-                    ₹ {expense.Amount}
-                  </td>
-                  <td className="px-3 py-3 font-medium text-slate-900">
-                    {expense.peoples?.PeopleName ?? "-"}
-                  </td>
-                  <td className="px-3 py-3">
-                    <span className="inline-flex items-center rounded-full bg-rose-50 px-3 py-1 text-xs font-semibold text-rose-700">
-                      {expense.categories?.CategoryName ?? "-"}
-                    </span>
-                  </td>
-                  <td className="px-3 py-3">
-                    <span className="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">
-                      {expense.sub_categories?.SubCategoryName ?? "-"}
-                    </span>
-                  </td>
-                  <td className="px-3 py-3">
-                    {expense.projects?.ProjectName ?? "-"}
-                  </td>
-                  <td className="px-3 py-3">
-                    {expense.ExpenseDetail ?? "-"}
-                  </td>
-                  <td className="px-3 py-3">
-                    <div className="flex items-center gap-3 text-sm">
-                      <button
-                        className="font-medium text-blue-600 hover:text-blue-700"
-                        onClick={() =>
-                          router.push(`/user/expenses/edit/${expense.ExpenseID}`)
-                        }
-                      >
-                        Edit
-                      </button>
-                      <button
-                        className="font-medium text-rose-600 hover:text-rose-700"
-                        onClick={() => deleteExpense(expense.ExpenseID)}
-                      >
-                        Delete
-                      </button>
+                  <td colSpan={5} className="py-20 text-center">
+                    <div className="flex flex-col items-center gap-2 opacity-30">
+                      <Layout className="w-12 h-12" />
+                      <p className="font-bold">No expenses found</p>
                     </div>
                   </td>
                 </tr>
-              ))}
+              ) : (
+                expenses.map((expense) => (
+                  <tr key={expense.ExpenseID} className="group hover:bg-indigo-50/20 transition-colors cursor-pointer">
+                    {/* Column 1: Item & Date */}
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-4">
+                        <div className="w-10 h-10 rounded-xl bg-rose-50 flex items-center justify-center text-rose-600">
+                          <Tag className="w-5 h-5" />
+                        </div>
+                        <div className="min-w-0">
+                          <p className="font-bold text-slate-800 truncate">{expense.ExpenseDetail || "No Details"}</p>
+                          <div className="flex items-center gap-1.5 text-xs text-slate-400 font-medium">
+                            <Calendar className="w-3 h-3" />
+                            {new Date(expense.ExpenseDate).toLocaleDateString()}
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+
+                    {/* Column 2: Person & Project (Hidden on Small) */}
+                    <td className="px-4 py-4 hidden md:table-cell">
+                      <div className="space-y-1">
+                        <div className="flex items-center gap-1.5 text-xs font-bold text-slate-600">
+                          <User className="w-3.5 h-3.5 text-slate-400" />
+                          {expense.peoples?.PeopleName ?? "-"}
+                        </div>
+                        <div className="flex items-center gap-1.5 text-xs font-medium text-slate-400">
+                          <Layout className="w-3.5 h-3.5" />
+                          {expense.projects?.ProjectName ?? "Default Project"}
+                        </div>
+                      </div>
+                    </td>
+
+                    {/* Column 3: Category */}
+                    <td className="px-4 py-4 text-center">
+                      <span className="inline-flex px-3 py-1 rounded-full bg-slate-100 text-slate-600 text-[10px] font-black uppercase tracking-wider">
+                        {expense.categories?.CategoryName ?? "-"}
+                      </span>
+                    </td>
+
+                    {/* Column 4: Amount */}
+                    <td className="px-4 py-4 text-right">
+                      <p className="text-base font-black text-rose-600">₹ {Number(expense.Amount).toLocaleString()}</p>
+                    </td>
+
+                    {/* Column 5: Actions */}
+                    <td className="px-6 py-4">
+                      <div className="flex items-center justify-center gap-2">
+                        <button
+                          onClick={() => router.push(`/user/expenses/edit/${expense.ExpenseID}`)}
+                          className="p-2 rounded-lg text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 transition-all"
+                        >
+                          <Edit2 className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={() => deleteExpense(expense.ExpenseID)}
+                          className="p-2 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-all"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
+        </div>
+
+        {/* Footer */}
+        <div className="p-4 sm:p-6 bg-slate-50/30 border-t border-slate-50 flex justify-center">
+          <p className="text-xs font-bold text-slate-400">Showing {expenses.length} results</p>
         </div>
       </div>
     </div>
