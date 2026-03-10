@@ -199,29 +199,29 @@ export default function LandingPage() {
             initial={{ opacity: 0, y: 100 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.8 }}
-            className="mt-24 max-w-6xl mx-auto relative px-4"
+            className="mt-16 md:mt-24 max-w-6xl mx-auto relative px-4"
           >
-            <div className="relative rounded-[40px] border border-slate-200 bg-white/50 backdrop-blur-sm p-4 shadow-2xl">
-              <div className="absolute inset-0 bg-gradient-to-tr from-indigo-50/20 to-transparent -z-10 rounded-[40px]"></div>
-              <img
+            <div className="relative rounded-[32px] md:rounded-[40px] border border-slate-200 bg-white/50 backdrop-blur-sm p-2 md:p-4 shadow-2xl">
+              <div className="absolute inset-0 bg-gradient-to-tr from-indigo-50/20 to-transparent -z-10 rounded-[32px] md:rounded-[40px]"></div>
+              {/* <img
                 src="https://images.unsplash.com/photo-1551288049-bbb6518147ad?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
                 alt="Dashboard Preview"
-                className="rounded-[32px] w-full shadow-2xl border border-slate-100"
-              />
+                className="rounded-[24px] md:rounded-[32px] w-full shadow-2xl border border-slate-100"
+              /> */}
 
               {/* Floating elements */}
               <motion.div
                 animate={{ y: [0, -10, 0] }}
                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute -right-8 top-1/4 hidden lg:block bg-white p-6 rounded-3xl shadow-2xl border border-slate-50 w-64"
+                className="absolute -right-2 top-4 md:-right-8 md:top-1/4 bg-white p-3 md:p-6 rounded-2xl md:rounded-3xl shadow-2xl border border-slate-50 w-40 md:w-64 z-20"
               >
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
-                    <TrendingUp className="w-6 h-6" />
+                <div className="flex items-center gap-2 md:gap-4 mb-2 md:mb-4">
+                  <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg md:rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                    <TrendingUp className="w-4 h-4 md:w-6 md:h-6" />
                   </div>
                   <div>
-                    <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Total Profits</p>
-                    <p className="text-xl font-black text-slate-900">+₹42,500</p>
+                    <p className="text-[8px] md:text-[10px] font-black uppercase tracking-widest text-slate-400 leading-none mb-1">Total Profits</p>
+                    <p className="text-sm md:text-xl font-black text-slate-900 leading-none">+₹42,500</p>
                   </div>
                 </div>
                 <div className="w-full h-1 bg-slate-100 rounded-full overflow-hidden">
@@ -237,15 +237,15 @@ export default function LandingPage() {
               <motion.div
                 animate={{ y: [0, 10, 0] }}
                 transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                className="absolute -left-8 bottom-1/4 hidden lg:block bg-slate-900 p-6 rounded-3xl shadow-2xl w-64"
+                className="absolute -left-2 bottom-4 md:-left-8 md:bottom-1/4 bg-slate-900 p-3 md:p-6 rounded-2xl md:rounded-3xl shadow-2xl w-40 md:w-64 z-20"
               >
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center">
-                    <CreditCard className="w-6 h-6" />
+                <div className="flex items-center gap-2 md:gap-4">
+                  <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg md:rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center">
+                    <CreditCard className="w-4 h-4 md:w-6 md:h-6" />
                   </div>
                   <div>
-                    <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">Active Burn</p>
-                    <p className="text-xl font-black text-white">₹12,800</p>
+                    <p className="text-[8px] md:text-[10px] font-black uppercase tracking-widest text-slate-500 leading-none mb-1">Active Burn</p>
+                    <p className="text-sm md:text-xl font-black text-white leading-none">₹12,800</p>
                   </div>
                 </div>
               </motion.div>
